@@ -1,6 +1,8 @@
 import os
 import requests
 import sqlite3
+import csv
+import json
 
 def descargar_imagenes_y_actualizar_productos(productos):
     for producto in productos:
@@ -22,3 +24,22 @@ def descargar_imagen(imagen_url, nombre_archivo):
             f.write(response.content)
     else:
         raise Exception(f"Error al descargar la imagen: {response.status_code}")
+
+def generar_archivos(productos, execution_id, conn):
+    csv_filename = f'respuestos_{execution_id}.csv'
+    with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:
+        fieldnames = ['codigo', 'descripcion', 'precio_normal', 'precio_descuento', 'imagen', 'porcentaje_descuento']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+        for producto in productos:
+            writer.writerow(producto)
+
+    json_filename = f'repuesto_{execution_id}.json'
+    with open(json_filename, 'w', encoding='utf-8') as jsonfile:
+        json.dump(productos, jsonfile, indent=4)
+
+    sql_filename = 'query.sql'
+    with open(sql_filename, 'w', encoding='utf-8') as sqlfile:
+        for line in conn.iterdump():
+            sqlfile.write(f'{line}\n')   
