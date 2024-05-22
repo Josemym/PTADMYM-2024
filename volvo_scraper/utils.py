@@ -26,7 +26,7 @@ def descargar_imagen(imagen_url, nombre_archivo):
         raise Exception(f"Error al descargar la imagen: {response.status_code}")
 
 def generar_archivos(productos, execution_id, conn):
-    csv_filename = f'respuestos_{execution_id}.csv'
+    csv_filename = f'repuestos_{execution_id}.csv'
     with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:
         fieldnames = ['codigo', 'descripcion', 'precio_normal', 'precio_descuento', 'imagen', 'porcentaje_descuento']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
