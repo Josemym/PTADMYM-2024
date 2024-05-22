@@ -1,2 +1,7 @@
 assets/*
 /scraper/__pycache__
+productos.db
+query.sql
+/volvo_scraper/__pycache__
+repuesto_*.json
+repuestos_*.csv
